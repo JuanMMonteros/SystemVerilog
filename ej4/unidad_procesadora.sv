@@ -22,25 +22,16 @@ module unidad_procesadora #(parameter N=4)
 			logic [3:0] flags;
 			logic [3:0] Constant_IN;
 			assign Constant_IN=4'b1111;
-			
 			reg_controller REG_FILE(clk,we,A,B,D,Ra,Rb,F2);
-			
-			assign Y= B_sel ? Constant_IN : Rb;
-			
-			assign DATA_out = Y;
-			assign Address_out = Ra;
-			
-			alu_flags alu(Ra,Y,G[3:1],G[0],ALU_out,flags);
-			
-			shiffter SHIFTER_unit(Y,H,SHIFTTER_out);
-			
+			alu_flags alu(Ra,B_sel ? Constant_IN : Rb,G[3:1],G[0],ALU_out,flags);
+			shiffter SHIFTER_unit(B_sel ? Constant_IN : Rb,H,SHIFTTER_out);
+			assign Y=B_sel ? Constant_IN : Rb;
+			assign DATA_out=B_sel ? Constant_IN : Rb;
 			assign F1 = MF_sel ? SHIFTTER_out : ALU_out;
-			
 			assign F2 =  MD_sel ? DATA_IN :F1;
 			
-			always_ff @(posedge clk)
-			  stateBits <= flags;
-			
+			always_ff@(posedge clk)
+			stateBits <= flags;
 			
 			
 			
