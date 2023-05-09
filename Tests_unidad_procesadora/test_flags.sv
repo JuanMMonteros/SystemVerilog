@@ -12,8 +12,8 @@ module test_flags();
 	integer i;
 	logic [3:0]control_init,test_flag;
 	logic [1:0]destino;
-	logic [7:0]control_med;
-	logic WF,control_finish;
+	logic [6:0]control_med;
+	logic we,WF,control_finish;
 	
 	unidad_procesadora dat(clk,control,datain,flags,dataout,adr_out);
 	
@@ -21,9 +21,9 @@ module test_flags();
 		$readmemb("C:\CargaRegistro.txt",testvector);							//extrae datos del archivo .txt
 		$readmemb("C:\StateFlags.txt",testvector_flags);
 		for(i=0;i<P;i=i+1) begin
-			{control_init,destino,control_med,WF,control_finish,datain} = testvector[i]; 
+			{control_init,destino,we,control_med,WF,control_finish,datain} = testvector[i]; 
 			test_flag = testvector_flags[i];
-			control={control_init,destino,control_med,WF,control_finish};						//simula lo indicado
+			control={control_init,destino,we,control_med,WF,control_finish};						//simula lo indicado
 			clk = 0;
 			#10;
 			clk = 1;
@@ -33,12 +33,15 @@ module test_flags();
 				assert(flags===test_flag) else $error("error flags durante operacion",i);
 			end
 			
-			control={2'b00,destino,12'b000100000000};								//saca el resultado de lo anterior por dataOUT
-			clk = 0;
-			#10;
-			clk = 1;
-			#10;
-			assert(dataout===datain) else $error("error operacion",i);		//compara el resultado optenido con lo indicado
+			if (we===1'b1)begin //si no se escribio un registro no se corrobora 
+				control={2'b00,destino,12'b000100000000};								//saca el resultado de lo anterior por dataOUT
+				clk = 0;
+				#10;
+				clk = 1;
+				#10;
+				assert(dataout===datain) else $error("error operacion",i);		//compara el resultado optenido con lo indicado
+			end
+			
 		end
 	end
 	

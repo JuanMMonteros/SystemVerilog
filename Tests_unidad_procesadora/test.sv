@@ -11,25 +11,28 @@ module test();
 	integer i;
 	logic [3:0]control_init;
 	logic [1:0]destino;
-	logic [9:0]control_finish;
+	logic we;
+	logic [8:0]control_finish;
 	
 	unidad_procesadora dat(clk,control,datain,flags,dataout,adr_out);
 	
 	initial begin
 		$readmemb("C:\CargaRegistro.txt",testvector);							//extrae datos del archivo .txt
 		for(i=0;i<N;i=i+1) begin
-			{control_init,destino,control_finish,datain} = testvector[i]; 
-			control={control_init,destino,control_finish};						//simula lo indicado
+			{control_init,destino,we,control_finish,datain} = testvector[i]; 
+			control={control_init,destino,we,control_finish};						//simula lo indicado
 			clk = 0;
 			#10;
 			clk = 1;
 			#10;
-			control={2'b00,destino,12'b000100000000};								//saca el resultado de lo anterior por dataOUT
-			clk = 0;
-			#10;
-			clk = 1;
-			#10;
-			assert(dataout===datain) else $error("error operacion",i);		//compara el resultado optenido con lo indicado
+			if (we===1'b1)begin //si no se escribio un registro no se corrobora 
+				control={2'b00,destino,12'b000100000000};								//saca el resultado de lo anterior por dataOUT
+				clk = 0;
+				#10;
+				clk = 1;
+				#10; 
+				assert(dataout===datain) else $error("error operacion",i);		//compara el resultado optenido con lo indicado
+			end
 		end
 	end
 	
