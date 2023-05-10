@@ -4,22 +4,22 @@ module test();
 	//señales 
 	logic clk;
 	logic [15:0] control;
-	logic [3:0] datain,dataout,adr_out;
+	logic [3:0] datain,dataout,adr_out,Constant_IN;
 	logic [3:0] flags;
 	//señales internas simulacion
-	logic [19:0] testvector [N-1:0]; 
+	logic [23:0] testvector [N-1:0]; 
 	integer i;
 	logic [3:0]control_init;
 	logic [1:0]destino;
 	logic we;
 	logic [8:0]control_finish;
 	
-	unidad_procesadora dat(clk,control,datain,flags,dataout,adr_out);
+	unidad_procesadora dat(clk,control,datain,Constant_IN,flags,dataout,adr_out);
 	
 	initial begin
 		$readmemb("C:\CargaRegistro.txt",testvector);							//extrae datos del archivo .txt
 		for(i=0;i<N;i=i+1) begin
-			{control_init,destino,we,control_finish,datain} = testvector[i]; 
+			{control_init,destino,we,control_finish,datain,Constant_IN} = testvector[i]; 
 			control={control_init,destino,we,control_finish};						//simula lo indicado
 			clk = 0;
 			#10;
