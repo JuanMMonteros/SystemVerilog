@@ -1,7 +1,7 @@
 module unidad_procesadora #(parameter N=4)
 								(input logic clk, 
 								input logic [15:0] ctrl_word,
-								input logic [N-1:0] DATA_IN,
+								 input logic [N-1:0] DATA_IN,Constant_IN,
 								output logic [3:0] stateBits,
 								output logic [N-1:0] DATA_out,Address_out);
 
@@ -23,10 +23,8 @@ module unidad_procesadora #(parameter N=4)
 			//Variables Intermedias
 			logic [N-1:0] Ra,Rb,ALU_out,SHIFTTER_out,Y,F1,F2;
 			logic [3:0] flags;
-			logic [3:0] Constant_IN;
 
-			//asignaciones y modulos
-			assign Constant_IN=4'b1111; //valor constante 
+			//asignaciones y modulos 
 			assign Y=MB_sel ? Rb : Constant_IN;
 			reg_controller REG_FILE(clk,we,A,B,D,Ra,Rb,F2); //modulo registros 
 			alu_flags alu(Ra,Y,G[3:1],G[0],ALU_out,flags); //modulo alu
