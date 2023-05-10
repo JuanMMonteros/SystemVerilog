@@ -4,10 +4,10 @@ module test_flags();
 	//señales 
 	logic clk;
 	logic [15:0] control;
-	logic [3:0] datain,dataout,adr_out;
+	logic [3:0] datain,dataout,adr_out,Constant_IN;
 	logic [3:0] flags;
 	//señales internas simulacion
-	logic [19:0] testvector [P-1:0];
+	logic [23:0] testvector [P-1:0];
    logic [3:0] testvector_flags [P-1:0];	
 	integer i;
 	logic [3:0]control_init,test_flag;
@@ -15,13 +15,13 @@ module test_flags();
 	logic [6:0]control_med;
 	logic we,WF,control_finish;
 	
-	unidad_procesadora dat(clk,control,datain,flags,dataout,adr_out);
+	unidad_procesadora dat(clk,control,datain,Constant_IN,flags,dataout,adr_out);
 	
 	initial begin
 		$readmemb("C:\CargaRegistro.txt",testvector);							//extrae datos del archivo .txt
 		$readmemb("C:\StateFlags.txt",testvector_flags);
 		for(i=0;i<P;i=i+1) begin
-			{control_init,destino,we,control_med,WF,control_finish,datain} = testvector[i]; 
+			{control_init,destino,we,control_med,WF,control_finish,datain,Constant_IN} = testvector[i]; 
 			test_flag = testvector_flags[i];
 			control={control_init,destino,we,control_med,WF,control_finish};						//simula lo indicado
 			clk = 0;
