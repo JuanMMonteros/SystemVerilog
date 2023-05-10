@@ -51,8 +51,8 @@ endmodule
 
 
 //formato palabra de control archivo .txt
-//| reg A | reg B | reg dest | we   | MB   | sel ALU | sel Shifter | MF   | MD   | dataIN |
-//| 2bits | 2bits | 2bits    | 1bit | 1bit | 4bits   | 2bits       | 1bit | 1bit | 4bits  |
+//| reg A | reg B | reg dest | we   | MB   | sel ALU | sel Shifter | MF   | MD   | dataIN | Constant_IN |
+//| 2bits | 2bits | 2bits    | 1bit | 1bit | 4bits   | 2bits       | 1bit | 1bit | 4bits  | 4bits       |
 //
 //El espacio de dataIN tambien se utiliza para indicar el resultado esperado.
 //colocar el numero de parametros cargados al comienzo del test.
