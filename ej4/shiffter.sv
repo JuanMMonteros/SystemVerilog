@@ -2,9 +2,9 @@
 //|  selección |operacion |
 //|   h1  h0   |          |
 //|    0   0   |  S=F     |
-//|    0   0   |  S=F <<1 |
-//|    0   1   |  S=F >>1 |
-//|    0   1   |  S=0000  |
+//|    0   1   |  S=F <<1 |
+//|    1   0   |  S=F >>1 |
+//|    1   1   |  S=0000  |
        
 
 module shiffter #(parameter N=4)( 
