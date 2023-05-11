@@ -1,4 +1,4 @@
-parameter N=6;
+parameter N=8;
 module test();
 
 	logic clk;

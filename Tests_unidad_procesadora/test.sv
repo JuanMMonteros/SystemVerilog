@@ -1,4 +1,4 @@
-parameter N=5; //cantidad de parametros en el archivo de testeo
+parameter N=8; //cantidad de parametros en el archivo de testeo
 module test();
 	
 	//señales 
